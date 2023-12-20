@@ -1,17 +1,33 @@
 const express = require('express');
+const mongoose = require('mongoose');
+
+const path = require('path');
 const ejs = require('ejs');
 
+const Blog = require('./models/Blogs');
+
 const app = express();
+
+//Connect DB
+mongoose.connect('mongodb://localhost/cleanblog-test-db', {
+  //useNewUrlParser: true,
+  //useUnifiedTopology: true,
+});
 
 //Template Engine
 app.set('view engine', 'ejs');
 
 //Public file saved. || MIDDLEWARE
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //ROUTES
-app.get('/', (req, res) => {
-  res.render('index');
+app.get('/', async (req, res) => {
+  const blogs = await Blog.find({});
+  res.render('index', {
+    blogs,
+  });
 });
 app.get('/about', (req, res) => {
   res.render('about');
@@ -21,6 +37,11 @@ app.get('/add_post', (req, res) => {
 });
 app.get('/post', (req, res) => {
   res.render('post');
+});
+//POST Yakalama.
+app.post('/blogs', async (req, res) => {
+  await Blog.create(req.body);
+  res.redirect('/');
 });
 
 const port = 3000;
