@@ -17,7 +17,6 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
             <h1><%= blog.title %></h1>
-            <h2 class="text"><%= blog.text %></h2>
             <span class="meta">Posted by
               <a href="#">Samet CANER</a>
               <%= blog.dateNow %></span>
@@ -31,8 +30,10 @@
   <article>
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <p></p>
+        <div class="col-lg-4 col-md-10 mx-auto" >
+          <p><%= blog.text %></p>
+          <a href="/blogs/edit/<%= blog._id %>" class ="btn btn-primary" ><span>UPDATE</span></a>
+          <a href="/blogs/<%= blog._id %>?_method=DELETE" class ="btn btn-danger" onclick="return confirm('ARE YOU SURE?')" ><span>DELETE</span></a>
         </div>
       </div>
     </div>
